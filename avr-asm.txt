@@ -1,1 +1,19 @@
-# notes
+Define clock source
+.EQU TIMER_CLK = (1 << CS12) | (1 << CS11) | (1 << CS10)
+
+Define timer waveform generation
+.EQU TIMER_MODE = (1 << WGM13) | (1 << WGM12) | (1 << WGM11) | (1 << WGM10)
+
+Define compare output mode
+.EQU TIMER_MODE_A = ((1 << WGM11) | (1 << WGM10)) & (TIMER_MODE)
+.EQU TIMER_MODE_B = ((1 << WGM13) | (1 << WGM12)) & (TIMER_MODE)
+
+
+    ldi   r16, COM1A | COM1B | TIMER_MODE_A
+    out   TCCR1A, r16
+    
+    ldi   r16, TIMER_MODE_B | TIMER_CLK
+    out   TCCR1B, r16
+    
+    ldi   r16, 
+    out   TIMSK, r16
