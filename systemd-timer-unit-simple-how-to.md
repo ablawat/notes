@@ -1,23 +1,23 @@
-# How to Mount a Volume in *systemd*
+# How to Create a Timer in *systemd*
 
-This note describes how to create timer unit that triggers suspend service.
+This note describes how to create a timer unit that triggers system suspend.
 
 ## Create Timer Unit Configuration File
 
-Create new file named after service that is going to be triggered under `/etc/systemd/system` directory:
+Create new file named after target that is going to be triggered under `/etc/systemd/system` directory:
 
     sudo touch /etc/systemd/system/suspend.timer
 
-> Timer units should be named after the service they triggers. Example: the timer for service `suspend` should be configured in a unit file named `suspend.timer`.
+> Timer units should be named after the service or target they triggers. Example: the timer for target `suspend` should be configured in a unit file named `suspend.timer`.
 
 Add content to file `/etc/systemd/system/suspend.timer`:
 
     [Unit]
-    Description="System Suspend Timer"
+    Description=System Suspend Timer
     
     [Timer]
     OnCalendar=*-*-* 10:00:00
-    Unit=suspend.service
+    Unit=suspend.target
 
 ## Apply New Configuration File
 
@@ -38,3 +38,21 @@ The output will look like this:
     $ sudo systemctl list-timers --all
 
 The output will look like this:
+
+    [SYSTEMCTRL OUTPUT]
+
+## Start a Timer
+
+Start system suspend timer:
+
+    $ sudo systemctl start suspend.timer
+
+[TBD]
+
+    $ sudo systemctl list-timers suspend
+
+The output will look like this:
+
+    [SYSTEMCTRL OUTPUT]
+
+[TBD]
