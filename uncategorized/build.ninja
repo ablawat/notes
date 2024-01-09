@@ -1,0 +1,22 @@
+# define compiler options
+flags = -Wall -Werror
+
+# generate object file from source file
+rule compile
+    depfile = $out.d
+    command = gcc -MD -MF $out.d $flags -c $in -o $out
+
+# create executable file from object files
+rule link
+    command = gcc $flags $in -o $out
+
+# make object files
+build board.o: compile board.c
+build ui.o:    compile ui.c
+build main.o:  compile main.c
+
+# make executable
+build fir.exe: link board.o ui.o main.o
+
+# comment
+default fir.exe
